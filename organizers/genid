@@ -1,0 +1,14 @@
+#!/bin/bash
+
+./genqr
+
+mkdir -p id
+echo "Making all the ID Cards"
+template="template.png"
+while IFS="" read -r line || [ -n "$line" ] ; do
+	name="$(echo "$line" | cut -f1)"
+	id="$(echo "$line" | cut -f2)"
+	phone="$(echo "$line" | cut -f3)"
+	resp="$(echo "$line" | cut -f4)"
+	./badge "$template" "$name" "$id" "$resp" &
+done <list

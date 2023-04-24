@@ -1,0 +1,8 @@
+#!/bin/bash
+
+echo "Making all the QR codes"
+mkdir -p qr
+while IFS= read -r line; do
+  regno=$(echo "$line" | cut -d'	' -f2)
+  qrencode -l L -s 20 -o qr/"$regno".png "https://xactitude-2023-website.vercel.app/about/${regno}.html" & 
+done < list

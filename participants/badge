@@ -1,0 +1,27 @@
+#!/bin/bash
+
+if [ -z "$1" ]; then 
+	echo "usage: 
+	$(basename "$0") template xactcode"
+	exit
+fi
+if [ ! -r "$1" ]; then
+	echo "$1 not found"
+	exit 1
+fi
+src="$1"
+dest="id/${2}.jpg"
+qr="qr/$2".jpg
+xactcode="$(echo $2 | sed -e 's/-/ - /g')"
+
+convert \
+	"$src" \
+	-gravity center \
+	-fill "#000000" \
+	-font "Open-Sans-Bold" \
+	-pointsize 70 \
+	-annotate +0+540 "$xactcode" \
+	"$dest"
+
+magick convert "$dest" "$qr" -gravity Center -geometry 500x500+0+230 -composite "$dest"
+

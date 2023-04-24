@@ -1,0 +1,10 @@
+#!/bin/bash
+
+mkdir -p qr
+while IFS= read -r line; do
+  xact="$(echo "$line" | cut -f1)"
+  echo "QR: $xact"
+  qrencode -m 2 -l L -s 20 -o qr/"$xact".jpg "$xact" & 
+  while [ "$(jobs | wc -l)" -gt 100 ] ; do sleep 0.1 ; done
+done < list
+

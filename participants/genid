@@ -1,0 +1,12 @@
+#!/bin/bash
+
+./genqr
+
+mkdir -p id
+echo "Making all the ID Cards"
+template="template.jpg"
+while IFS="" read -r line || [ -n "$line" ] ; do
+  echo "Generating $line"
+	./badge "$template" "$line" &
+  while [ "$(jobs | wc -l)" -gt 50 ] ; do sleep 0.1 ; done
+done <list
