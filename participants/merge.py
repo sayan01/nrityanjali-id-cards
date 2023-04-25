@@ -17,7 +17,8 @@ IMG_FOLDER = "id"
 pdf_path = "./id_cards.pdf"
 
 # Delete pdf if already exists
-os.remove(pdf_path)
+if os.path.exists(pdf_path):
+    os.remove(pdf_path)
 
 # Initialize a PDF writer
 pdf_writer = pdfrw.PdfWriter()
