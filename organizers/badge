@@ -2,7 +2,7 @@
 
 if [ -z "$1" ]; then 
 	echo "usage: 
-	$(basename "$0") template name regno [responsibilities]"
+	$(basename "$0") template name regno [position] [subname]"
 	exit
 fi
 if [ ! -r "$1" ]; then
@@ -10,10 +10,11 @@ if [ ! -r "$1" ]; then
 	exit 1
 fi
 src="$1"
-dest="id/${3}.png"
+dest="id/${3}.jpg"
 name="$2"
 resp="$4"
-qr="qr/$3".png
+subname="$5"
+photo="photos/$3".jpg
 nameshort="$(./initials.py "$name")"
 
 if [ "$name" != "$nameshort" ]; then
@@ -24,13 +25,14 @@ convert \
 	"$src" \
 	-gravity center \
 	-pointsize 75 \
-	-fill "#ffffffff" \
+	-fill "#000000" \
 	-font "Comfortaa-Bold" \
-	-annotate +0+500 "$(./initials.py "$name")" \
+	-annotate +0+520 "$(./initials.py "$name")" \
+	-pointsize 35 \
+  -annotate +0+575 "$subname" \
 	-font "Open-Sans-Bold" \
-	-pointsize 40 \
-	-annotate +0+600 "$resp" \
-	"$dest"
+	-pointsize 60 \
+	-annotate +0+650 "$resp" \
+	"$dest" 
 
-magick convert "$dest" "$qr" -gravity Center -geometry 500x500+0+70 -composite "$dest"
-
+magick convert "$dest" "$photo" -gravity Center -geometry 500x500+0+200 -composite "$dest" 

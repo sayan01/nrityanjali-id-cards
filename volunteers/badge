@@ -1,0 +1,29 @@
+#!/bin/bash
+
+if [ -z "$1" ]; then 
+	echo "usage: 
+	$(basename "$0") template name regno"
+	exit
+fi
+if [ ! -r "$1" ]; then
+	echo "$1 not found"
+	exit 1
+fi
+src="$1"
+dest="id/${3}.jpg"
+name="$2"
+nameshort="$(./initials.py "$name")"
+
+if [ "$name" != "$nameshort" ]; then
+  echo "Shortening $name -> $nameshort"
+fi
+
+convert \
+	"$src" \
+	-gravity center \
+	-pointsize 55 \
+	-fill "#000000" \
+	-font "Comfortaa-Bold" \
+	-annotate +0+607 "$(./initials.py "$name")" \
+	"$dest" 
+
